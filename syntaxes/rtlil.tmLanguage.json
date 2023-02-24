@@ -1,0 +1,138 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "RTLIL",
+	"patterns": [ { "include": "#rtlil" } ],
+	"repository": {
+		"rtlil": {
+			"patterns": [
+				{ "include": "#common" },
+				{ "include": "#scopes" }
+			]
+		},
+
+		"types": {
+			"name":"variable.parameter.rtlil",
+			"match": "\\b(wire|attribute|parameter|memory|global|real|size|offset|signed)\\b"
+		},
+
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.rtlil",
+					"match": "\\b(width|input|output|inout)\\b"
+				},
+				{
+					"name": "keyword.operator.rtlil",
+					"match": "\\b(connect|assign|always|posedge|negedge|init|update)\\b"
+				},
+				{
+					"name": "keyword.other.rtlil",
+					"match": "\\b(high|low|upto|edge|autoidx|sync)\\b"
+				}
+			]
+		},
+
+		"string": {
+			"name": "string.quoted.double.rtlil",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{ "name": "constant.character.escape.rtlil", "match": "\\\\." }
+			]
+		},
+
+		"identifiers": {
+			"patterns": [
+				{ "name": "variable.name.rtlil", "match": "\\\\[^ \\t\\r\\n]+" },
+				{ "name": "variable.name.rtlil", "match": "\\$[^ \\t\\r\\n]+" },
+				{ "name": "variable.name.rtlil", "match": "\\.[0-9]+" }
+			]
+		},
+
+		"common": {
+			"patterns": [
+				{ "name": "comment.line", "match": "#.*$" },
+				{ "include": "#string" },
+				{ "name": "constant.other", "match": "[0-9]+'[01xzm-]*" },
+				{ "include": "#identifiers" },
+				{ "name": "constant.numeric", "match": "-?[0-9]+" },
+				{ "include": "#types" },
+				{ "include": "#keywords" }
+			]
+		},
+
+		"module": {
+			"begin": "\\b(module)\\b",
+			"end": "\\b(end)\\b",
+			"beginCaptures": {
+				"0": { "name": "entity.name.class.open.rtlil" }
+			},
+			"endCaptures": {
+				"0": { "name": "entity.name.class.close.rtlil" }
+			},
+			"name": "source.rtlil.module",
+			"patterns": [ { "include": "#rtlil" } ]
+		},
+		"cell": {
+			"begin": "\\b(cell)\\b",
+			"end": "\\b(end)\\b",
+			"beginCaptures": {
+				"0": { "name": "entity.name.function.open.rtlil" }
+			},
+			"endCaptures": {
+				"0": { "name": "entity.name.function.close.rtlil" }
+			},
+			"name": "source.rtlil.cell",
+			"patterns": [ { "include": "#common" } ]
+		},
+
+		"case": {
+			"patterns": [
+				{ "include": "#common" },
+				{ "include": "#switch" },
+				{ "name": "entity.name.selector", "match": "\\b(case)\\b" }
+			]
+		},
+
+		"switch": {
+			"begin": "\\b(switch)\\b",
+			"end": "\\b(end)\\b",
+			"beginCaptures": {
+				"0": { "name": "entity.name.method.open.rtlil" }
+			},
+			"endCaptures": {
+				"0": { "name": "entity.name.method.close.rtlil" }
+			},
+			"name": "source.rtlil.switch",
+			"patterns": [
+				{ "include": "#common" },
+				{ "include": "#case" }
+			]
+		},
+
+		"process": {
+			"begin": "\\b(process)\\b",
+			"end": "\\b(end)\\b",
+			"beginCaptures": {
+				"0": { "name": "entity.name.function.open.rtlil" }
+			},
+			"endCaptures": {
+				"0": { "name": "entity.name.function.close.rtlil" }
+			},
+			"name": "source.rtlil.process",
+			"patterns": [
+				{ "include": "#common" },
+				{ "include": "#switch" }
+			]
+		},
+
+		"scopes": {
+			"patterns": [
+				{ "include": "#module"  },
+				{ "include": "#cell"    },
+				{ "include": "#process" }
+			]
+		}
+	},
+	"scopeName": "source.rtlil"
+}

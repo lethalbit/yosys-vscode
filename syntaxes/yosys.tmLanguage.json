@@ -1,0 +1,94 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Yosys Script",
+	"patterns": [ { "include": "#yosys-script" } ],
+	"repository": {
+		"yosys-script": {
+			"patterns": [
+				{ "include": "#common"  },
+				{ "include": "#commands" }
+			]
+		},
+
+		"string": {
+			"name": "string.quoted.double.yosys",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{ "name": "constant.character.escape.yosys", "match": "\\\\." }
+			]
+		},
+
+		"common": {
+			"patterns": [
+				{ "name": "comment.line", "match": "#.*$" }
+			]
+		},
+
+		"read_verilog": {
+			"begin": "^(read_verilog)\\s*+(-[A-Za-z_][A-Za-z_0-9]*)?\\s*+(<<)\\s*+([A-Za-z_][A-Za-z_0-9]*)",
+			"end": "^(?:\\4)(?=\\s)",
+
+			"beginCaptures": {
+				"1": { "name": "keyword.control.yosys" },
+				"2": { "name": "variable.parameter.yosys" },
+				"3": { "name": "keyword.operator.heredoc.yosys" },
+				"4": { "name": "string.quoted.begin.yosys" }
+			},
+			"endCaptures": {
+				"0": { "name": "string.quoted.end.yosys" }
+			},
+			"patterns": [
+				{
+					"name": "meta.embedded.block.verilog",
+					"patterns": [
+						{ "include": "source.verilog" }
+					]
+				}
+			]
+		},
+
+		"read_rtlil": {
+			"begin": "^(read_rtlil)\\s*+(-[A-Za-z_][A-Za-z_0-9]*)?\\s*+(<<)\\s*+([A-Za-z_][A-Za-z_0-9]*)",
+			"end": "^(?:\\4)(?=\\s)",
+
+			"beginCaptures": {
+				"1": { "name": "keyword.control.yosys" },
+				"2": { "name": "variable.parameter.yosys" },
+				"3": { "name": "keyword.operator.heredoc.yosys" },
+				"4": { "name": "string.quoted.begin.yosys" }
+			},
+			"endCaptures": {
+				"0": { "name": "string.quoted.end.yosys" }
+			},
+			"patterns": [
+				{
+					"name": "meta.embedded.block.rtlil",
+					"patterns": [
+						{ "include": "source.rtlil" }
+					]
+				}
+			]
+		},
+
+		"commands": {
+			"patterns": [
+				{ "include": "#common" },
+				{ "include": "#read_verilog" },
+				{ "include": "#read_rtlil"   },
+				{
+					"name": "keyword.control.yosys",
+					"begin": "^([A-Za-z_][A-Za-z_0-9]*)",
+					"end": "$",
+					"patterns": [
+						{ "include": "#string" },
+						{ "name": "variable.parameter", "match": "-[A-Za-z_][A-Za-z_0-9-]*" },
+						{ "name": "constant.numeric", "match": "\\b-?[0-9]+\\b" },
+						{ "name": "variable.name", "match": "\\+/[^\\s]+" }
+					]
+				}
+			]
+		}
+	},
+	"scopeName": "source.yosys"
+}

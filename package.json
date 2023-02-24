@@ -1,0 +1,68 @@
+{
+  "name": "yosys-highlighting",
+  "displayName": "Yosys Syntax Highlighting",
+  "description": "Syntax Highlighting for Yosys Scripts and RTLIL",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "publisher": "aki-nyan",
+  "license": "BSD-3-Clause",
+  "repository": {
+		"type": "git",
+		"url": "https://github.com/lethalbit/yosys-vscode"
+	},
+	"bugs": {
+		"url": "https://github.com/lethalbit/yosys-vscode/issues"
+	},
+  "categories": [
+    "Programming Languages"
+  ],
+  "scripts": {
+    "package": "npm install && ./node_modules/.bin/vsce package -o ./build/yosys-vscode.vsix",
+    "install-dev": "npm run package && code --install-extension ./build/yosys-vscode.vsix"
+  },
+  "devDependencies": {
+		"@vscode/vsce": "^2.15.0"
+	},
+  "contributes": {
+    "languages": [
+      {
+        "id": "rtlil",
+        "aliases": [
+          "Yosys RTLIL"
+        ],
+        "extensions": [
+          ".il"
+        ],
+        "configuration": "./language-configuration-rtlil.json"
+      },
+      {
+        "id": "yosys-script",
+        "aliases": [
+          "Yosys Script"
+        ],
+        "extensions": [
+          ".ys"
+        ],
+        "configuration": "./language-configuration-yosys.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "rtlil",
+        "scopeName": "source.rtlil",
+        "path": "./syntaxes/rtlil.tmLanguage.json"
+      },
+      {
+        "language": "yosys-script",
+        "scopeName": "source.yosys",
+        "path": "./syntaxes/yosys.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.rtlil": "rtlil",
+          "meta.embedded.block.verilog": "verilog"
+        }
+      }
+    ]
+  }
+}
