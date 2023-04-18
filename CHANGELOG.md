@@ -17,9 +17,11 @@ Unreleased template stuff
 -->
 ## [Unreleased]
 
+## [0.1.1]
 ### Added
 
  - Added heredoc support in the yosys script syntax for `read_liberty`, `read_blif`, `read_json`, and `read_aigar`
+
 ## [0.1.0]
 
  - Initial Release
