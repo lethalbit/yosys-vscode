@@ -71,11 +71,107 @@
 			]
 		},
 
+		"read_liberty": {
+			"begin": "^(read_liberty)\\s*+(-[A-Za-z_][A-Za-z_0-9]*)?\\s*+(<<)\\s*+([A-Za-z_][A-Za-z_0-9]*)",
+			"end": "^(?:\\4)(?=\\s)",
+
+			"beginCaptures": {
+				"1": { "name": "keyword.control.yosys" },
+				"2": { "name": "variable.parameter.yosys" },
+				"3": { "name": "keyword.operator.heredoc.yosys" },
+				"4": { "name": "string.quoted.begin.yosys" }
+			},
+			"endCaptures": {
+				"0": { "name": "string.quoted.end.yosys" }
+			},
+			"patterns": [
+				{
+					"name": "meta.embedded.block.liberty",
+					"patterns": [
+						{ "include": "source.liberty" }
+					]
+				}
+			]
+		},
+
+		"read_blif": {
+			"begin": "^(read_blif)\\s*+(-[A-Za-z_][A-Za-z_0-9]*)?\\s*+(<<)\\s*+([A-Za-z_][A-Za-z_0-9]*)",
+			"end": "^(?:\\4)(?=\\s)",
+
+			"beginCaptures": {
+				"1": { "name": "keyword.control.yosys" },
+				"2": { "name": "variable.parameter.yosys" },
+				"3": { "name": "keyword.operator.heredoc.yosys" },
+				"4": { "name": "string.quoted.begin.yosys" }
+			},
+			"endCaptures": {
+				"0": { "name": "string.quoted.end.yosys" }
+			},
+			"patterns": [
+				{
+					"name": "meta.embedded.block.blif",
+					"patterns": [
+						{ "include": "source.blif" }
+					]
+				}
+			]
+		},
+
+		"read_json": {
+			"begin": "^(read_json)\\s*+(-[A-Za-z_][A-Za-z_0-9]*)?\\s*+(<<)\\s*+([A-Za-z_][A-Za-z_0-9]*)",
+			"end": "^(?:\\4)(?=\\s)",
+
+			"beginCaptures": {
+				"1": { "name": "keyword.control.yosys" },
+				"2": { "name": "variable.parameter.yosys" },
+				"3": { "name": "keyword.operator.heredoc.yosys" },
+				"4": { "name": "string.quoted.begin.yosys" }
+			},
+			"endCaptures": {
+				"0": { "name": "string.quoted.end.yosys" }
+			},
+			"patterns": [
+				{
+					"name": "meta.embedded.block.json",
+					"patterns": [
+						{ "include": "source.json" }
+					]
+				}
+			]
+		},
+
+		"read_aiger": {
+			"begin": "^(read_aiger)\\s*+(-[A-Za-z_][A-Za-z_0-9]*)?\\s*+(<<)\\s*+([A-Za-z_][A-Za-z_0-9]*)",
+			"end": "^(?:\\4)(?=\\s)",
+
+			"beginCaptures": {
+				"1": { "name": "keyword.control.yosys" },
+				"2": { "name": "variable.parameter.yosys" },
+				"3": { "name": "keyword.operator.heredoc.yosys" },
+				"4": { "name": "string.quoted.begin.yosys" }
+			},
+			"endCaptures": {
+				"0": { "name": "string.quoted.end.yosys" }
+			},
+			"patterns": [
+				{
+					"name": "meta.embedded.block.aiger",
+					"patterns": [
+						{ "include": "source.aiger" }
+					]
+				}
+			]
+		},
+
 		"commands": {
 			"patterns": [
 				{ "include": "#common" },
 				{ "include": "#read_verilog" },
 				{ "include": "#read_rtlil"   },
+				{ "include": "#read_liberty" },
+				{ "include": "#read_blif"    },
+				{ "include": "#read_json"    },
+				{ "include": "#read_aiger"   },
 				{
 					"name": "keyword.control.yosys",
 					"begin": "^([A-Za-z_][A-Za-z_0-9]*)",

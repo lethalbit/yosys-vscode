@@ -2,7 +2,7 @@
   "name": "yosys-highlighting",
   "displayName": "Yosys Syntax Highlighting",
   "description": "Syntax Highlighting for Yosys Scripts and RTLIL",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "engines": {
     "vscode": "^1.75.0"
   },
@@ -35,7 +35,7 @@
         "extensions": [
           ".il"
         ],
-        "configuration": "./language-configuration-rtlil.json"
+        "configuration": "./lang_configs/rtlil.json"
       },
       {
         "id": "yosys-script",
@@ -45,7 +45,7 @@
         "extensions": [
           ".ys"
         ],
-        "configuration": "./language-configuration-yosys.json"
+        "configuration": "./lang_configs/yosys.json"
       }
     ],
     "grammars": [
@@ -60,7 +60,11 @@
         "path": "./syntaxes/yosys.tmLanguage.json",
         "embeddedLanguages": {
           "meta.embedded.block.rtlil": "rtlil",
-          "meta.embedded.block.verilog": "verilog"
+          "meta.embedded.block.verilog": "verilog",
+          "meta.embedded.block.liberty": "liberty",
+          "meta.embedded.block.blif": "blif",
+          "meta.embedded.block.json": "json",
+          "meta.embedded.block.aigar": "aigar"
         }
       }
     ]
