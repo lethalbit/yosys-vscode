@@ -46,6 +46,16 @@
           ".ys"
         ],
         "configuration": "./lang_configs/yosys.json"
+      },
+      {
+        "id": "liberty",
+        "aliases": [
+          "Synopsys® Liberty"
+        ],
+        "extensions": [
+          ".lib"
+        ],
+        "configuration": "./lang_configs/liberty.json"
       }
     ],
     "grammars": [
@@ -66,6 +76,11 @@
           "meta.embedded.block.json": "json",
           "meta.embedded.block.aigar": "aigar"
         }
+      },
+      {
+        "language": "liberty",
+        "scopeName": "source.liberty",
+        "path": "./syntaxes/liberty.tmLanguage.json"
       }
     ]
   }

@@ -1,0 +1,411 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Synopsys® Liberty",
+	"patterns": [ { "include": "#liberty-file" } ],
+	"repository": {
+		"liberty-file": {
+			"patterns": [
+				{ "include": "#common"  },
+				{ "include": "#library" }
+			]
+		},
+		"library": {
+			"name": "source.liberty.library",
+			"begin": "^(library)\\s*\\(([A-Za-z_0-9]+)\\)\\s*{",
+			"end": "\\s*}",
+			"beginCaptures": {
+				"1": { "name": "entity.name.class.open.liberty" },
+				"2": { "name": "entity.name.tag"                }
+			},
+			"endCaptures": {
+				"0": { "name": "entity.name.class.close.liberty" }
+			},
+			"patterns": [
+				{ "include": "#common"             },
+				{ "include": "#library-components" }
+			]
+		},
+
+
+		"library-components": {
+			"patterns": [
+				{ "include": "#library-attributes"     },
+				{ "include": "#library-groups"         },
+				{ "include": "#crit-area-lut-template" },
+				{ "include": "#device-layer"           },
+				{ "include": "#poly-layer"             },
+				{ "include": "#routing-layer"          },
+				{ "include": "#cont-layer"             },
+				{ "include": "#cell"                   }
+			]
+		},
+
+		"library-attributes": {
+			"patterns": [
+				{ "name":"keyword.liberty", "match": "\\b(altitude_unit)\\b"                   },
+				{ "name":"keyword.liberty", "match": "\\b(bus_naming_style)\\b"                },
+				{ "name":"keyword.liberty", "match": "\\b(comment)\\b"                         },
+				{ "name":"keyword.liberty", "match": "\\b(current_unit)\\b"                    },
+				{ "name":"keyword.liberty", "match": "\\b(date)\\b"                            },
+				{ "name":"keyword.liberty", "match": "\\b(default_fpga_isd)\\b"                },
+				{ "name":"keyword.liberty", "match": "\\b(default_threshold_voltage_group)\\b" },
+				{ "name":"keyword.liberty", "match": "\\b(delay_model)\\b"                     },
+				{ "name":"keyword.liberty", "match": "\\b(distance_unit)\\b"                   },
+				{ "name":"keyword.liberty", "match": "\\b(dist_conversion_factor)\\b"          },
+				{ "name":"keyword.liberty", "match": "\\b(em_temp_degradation_factor)\\b"      },
+				{ "name":"keyword.liberty", "match": "\\b(input_threshold_pct_fall)\\b"        },
+				{ "name":"keyword.liberty", "match": "\\b(is_soi)\\b"                          },
+				{ "name":"keyword.liberty", "match": "\\b(leakage_power_unit)\\b"              },
+				{ "name":"keyword.liberty", "match": "\\b(nom_process)\\b"                     },
+				{ "name":"keyword.liberty", "match": "\\b(nom_temperature)\\b"                 },
+				{ "name":"keyword.liberty", "match": "\\b(nom_voltage)\\b"                     },
+				{ "name":"keyword.liberty", "match": "\\b(output_threshold_pct_fall)\\b"       },
+				{ "name":"keyword.liberty", "match": "\\b(output_threshold_pct_rise)\\b"       },
+				{ "name":"keyword.liberty", "match": "\\b(power_model)\\b"                     },
+				{ "name":"keyword.liberty", "match": "\\b(pulling_resistance_unit)\\b"         },
+				{ "name":"keyword.liberty", "match": "\\b(revision)\\b"                        },
+				{ "name":"keyword.liberty", "match": "\\b(slew_derate_from_library)\\b"        },
+				{ "name":"keyword.liberty", "match": "\\b(slew_lower_threshold_pct_fall)\\b"   },
+				{ "name":"keyword.liberty", "match": "\\b(slew_lower_threshold_pct_rise)\\b"   },
+				{ "name":"keyword.liberty", "match": "\\b(slew_upper_threshold_pct_fall)\\b"   },
+				{ "name":"keyword.liberty", "match": "\\b(slew_upper_threshold_pct_rise)\\b"   },
+				{ "name":"keyword.liberty", "match": "\\b(soft_error_rate_confidence)\\b"      },
+				{ "name":"keyword.liberty", "match": "\\b(time_unit)\\b"                       },
+				{ "name":"keyword.liberty", "match": "\\b(voltage_unit)\\b"                    },
+				{
+					"name":"keyword.liberty",
+					"match": "^\\s*(capacitive_load_unit)\\s*\\(\\s*([0-9]+(\\.[0-9]+)?)\\s*,\\s*(ff|pf)\\s*\\)",
+					"captures": {
+						"1": { "name": "keyword.liberty"            },
+						"2": { "name": "constant.numeric"           },
+						"4": { "name": "variable.parameter.liberty" }
+					}
+				},
+				{
+					"name":"keyword.liberty",
+					"match": "^\\s*(default_part)\\s*\\(\\s*(\"[a-zA-Z0-9-_]+\")\\s*,\\s*(\"[a-zA-Z0-9-_]+\")\\s*\\)",
+					"captures": {
+						"1": { "name": "keyword.liberty"              },
+						"2": { "name": "string.quoted.double.liberty" },
+						"3": { "name": "string.quoted.double.liberty" }
+					}
+				},
+				{
+					"name":"keyword.liberty",
+					"match": "^\\s*(define)\\s*\\(\\s*(\"[a-zA-Z0-9-_]+\")\\s*,\\s*(\"[a-zA-Z0-9-_]+\")\\s*,\\s*(\"[a-zA-Z0-9-_]+\")\\s*\\)",
+					"captures": {
+						"1": { "name": "keyword.liberty"              },
+						"2": { "name": "string.quoted.double.liberty" },
+						"3": { "name": "string.quoted.double.liberty" },
+						"4": { "name": "string.quoted.double.liberty" }
+					}
+				},
+				{
+					"name":"keyword.liberty",
+					"match": "^\\s*(define_cell_area)\\s*\\(\\s*[a-zA-Z_]+\\s*,\\s*(pad_slots|pad_input_driver_sites|pad_output_driver_sites|pad_driver_sites)\\s*\\)",
+					"captures": {
+						"0": { "name": "keyword.liberty"            },
+						"2": { "name": "variable.parameter.liberty" }
+					}
+				},
+				{
+					"name":"keyword.liberty",
+					"match": "^\\s*(receiver_capacitance_fall_threshold_pct)\\s*\\(",
+					"captures": {
+						"0": { "name": "keyword.liberty" }
+					}
+				},
+				{
+					"name":"keyword.liberty",
+					"match": "^\\s*(receiver_capacitance_rise_threshold_pct)\\s*\\(",
+					"captures": {
+						"0": { "name": "keyword.liberty" }
+					}
+				},
+				{
+					"name":"keyword.liberty",
+					"match": "^\\s*(technology)\\s*\\(((\")?(cmos)(\")?)\\s*\\)",
+					"captures": {
+						"0": { "name": "keyword.liberty"              },
+						"3": { "name": "string.quoted.double.liberty" },
+						"4": { "name": "variable.parameter.liberty"   },
+						"5": { "name": "string.quoted.double.liberty" }
+					}
+				},
+				{
+					"name":"keyword.liberty",
+					"match": "^\\s*(voltage_map)\\s*\\(\\s*([a-zA-Z0-9_]+)\\s*,\\s*([0-9]+(\\.[0-9]+)?)\\s*\\)",
+					"captures": {
+						"1": { "name": "keyword.liberty"            },
+						"2": { "name": "variable.parameter.liberty" },
+						"3": { "name": "constant.numeric"           }
+					}
+				}
+			]
+		},
+
+		"library-groups": {
+			"patterns": [
+				{ "include": "#char-config" },
+				{
+					"name": "source.liberty.library.base_curves",
+					"begin": "^\\s*(base_curves)\\s*\\(([A-Za-z_0-9]+)\\)\\s*{",
+					"end": "\\s*}",
+					"beginCaptures": {
+						"1": { "name": "entity.name.method.open.liberty" },
+						"2": { "name": "entity.name.tag"                 }
+					},
+					"endCaptures": {
+						"0": { "name": "entity.name.method.close.liberty" }
+					},
+					"patterns": [
+						{ "include": "#common"  },
+						{
+							"name":"keyword.liberty",
+							"match": "^\\s*(base_curve_type)\\s*(:)\\s*(ccs_half_curve|ccs_timing_half_curve)",
+							"captures": {
+								"1": { "name": "keyword.liberty"            },
+								"3": { "name": "variable.parameter.liberty" }
+							}
+						},
+						{
+							"name":"keyword.liberty",
+							"match": "^\\s*(curve_x)\\s*\\(",
+							"captures": {
+								"1": { "name": "keyword.liberty" }
+							}
+						},
+						{
+							"name":"keyword.liberty",
+							"match": "^\\s*(curve_y)\\s*\\(\\s*([0-9]+(\\.[0-9]+)?)\\s*,\\s*",
+							"captures": {
+								"1": { "name": "keyword.liberty" },
+								"2": { "name": "constant.numeric" }
+							}
+						}
+					]
+				},
+				{
+					"name": "source.liberty.library.base_curves",
+					"begin": "^\\s*(compact_lut_template)\\s*\\(([A-Za-z_0-9]+)\\)\\s*{",
+					"end": "\\s*}",
+					"beginCaptures": {
+						"1": { "name": "entity.name.method.open.liberty" },
+						"2": { "name": "entity.name.tag"                 }
+					},
+					"endCaptures": {
+						"0": { "name": "entity.name.method.close.liberty" }
+					},
+					"patterns": [
+						{ "include": "#common"                                           },
+						{ "name":"keyword.liberty", "match": "\\b(base_curves_group)\\b" },
+						{
+							"name":"keyword.liberty",
+							"match": "^\\s*(variable_1|variable_2)\\s*(:)\\s*(input_net_transition|total_output_net_capacitance)",
+							"captures": {
+								"1": { "name": "keyword.liberty"            },
+								"3": { "name": "variable.parameter.liberty" }
+							}
+						},
+						{
+							"name":"keyword.liberty",
+							"match": "^\\s*(variable_3)\\s*(:)\\s*(curve_parameters)",
+							"captures": {
+								"1": { "name": "keyword.liberty"            },
+								"3": { "name": "variable.parameter.liberty" }
+							}
+						}
+
+					]
+				}
+			]
+		},
+
+		"crit-area-lut-template": {
+			"name": "source.liberty.library.crit_area_lut_template",
+			"begin": "^\\s*(critical_area_lut_template)\\s*\\(([A-Za-z_0-9]+)\\)\\s*{",
+			"end": "\\s*}",
+			"beginCaptures": {
+				"1": { "name": "entity.name.method.open.liberty" },
+				"2": { "name": "entity.name.tag"                 }
+			},
+			"endCaptures": {
+				"0": { "name": "entity.name.method.close.liberty" }
+			},
+			"patterns": [
+				{ "include": "#common"          }
+			]
+		},
+
+		"device-layer": {
+			"name": "source.liberty.library.device_layer",
+			"begin": "^\\s*(device_layer)\\s*\\(([A-Za-z_0-9]+)\\)\\s*{",
+			"end": "\\s*}",
+			"beginCaptures": {
+				"1": { "name": "entity.name.method.open.liberty" },
+				"2": { "name": "entity.name.tag"                 }
+			},
+			"endCaptures": {
+				"0": { "name": "entity.name.method.close.liberty" }
+			},
+			"patterns": [
+				{ "include": "#common"          }
+			]
+		},
+
+		"poly-layer": {
+			"name": "source.liberty.library.poly_layer",
+			"begin": "^\\s*(poly_layer)\\s*\\(([A-Za-z_0-9]+)\\)\\s*{",
+			"end": "\\s*}",
+			"beginCaptures": {
+				"1": { "name": "entity.name.method.open.liberty" },
+				"2": { "name": "entity.name.tag"                 }
+			},
+			"endCaptures": {
+				"0": { "name": "entity.name.method.close.liberty" }
+			},
+			"patterns": [
+				{ "include": "#common"          }
+			]
+		},
+
+		"routing-layer": {
+			"name": "source.liberty.library.routing_layer",
+			"begin": "^\\s*(routing_layer)\\s*\\(([A-Za-z_0-9]+)\\)\\s*{",
+			"end": "\\s*}",
+			"beginCaptures": {
+				"1": { "name": "entity.name.method.open.liberty" },
+				"2": { "name": "entity.name.tag"                 }
+			},
+			"endCaptures": {
+				"0": { "name": "entity.name.method.close.liberty" }
+			},
+			"patterns": [
+				{ "include": "#common"          }
+			]
+		},
+
+		"cont-layer": {
+			"name": "source.liberty.library.cont_layer",
+			"begin": "^\\s*(cont_layer)\\s*\\(([A-Za-z_0-9]+)\\)\\s*{",
+			"end": "\\s*}",
+			"beginCaptures": {
+				"1": { "name": "entity.name.method.open.liberty" },
+				"2": { "name": "entity.name.tag"                 }
+			},
+			"endCaptures": {
+				"0": { "name": "entity.name.method.close.liberty" }
+			},
+			"patterns": [
+				{ "include": "#common"          }
+			]
+		},
+
+		"cell": {
+			"name": "source.liberty.library.cell",
+			"begin": "^\\s*(cell)\\s*\\(([A-Za-z_0-9]+)\\)\\s*{",
+			"end": "\\s*}",
+			"beginCaptures": {
+				"1": { "name": "entity.name.method.open.liberty" },
+				"2": { "name": "entity.name.tag"                 }
+			},
+			"endCaptures": {
+				"0": { "name": "entity.name.method.close.liberty" }
+			},
+			"patterns": [
+				{ "include": "#common"          },
+				{ "include": "#char-config"     },
+				{ "include": "#cell-components" }
+			]
+		},
+
+		"cell-components": {
+			"patterns": [
+				{ "include": "#pin" }
+			]
+		},
+
+		"pin": {
+			"name": "source.liberty.library.cell.pin",
+			"begin": "^\\s*(pin)\\s*\\(([A-Za-z_0-9]+)\\)\\s*{",
+			"end": "\\s*}",
+			"beginCaptures": {
+				"1": { "name": "entity.name.function.open.liberty" },
+				"2": { "name": "entity.name.tag"                   }
+			},
+			"endCaptures": {
+				"0": { "name": "entity.name.function.open.liberty" }
+			},
+			"patterns": [
+				{ "include": "#common"         },
+				{ "include": "#char-config"    },
+				{ "include": "#pin-components" }
+			]
+		},
+
+
+		"pin-components": {
+			"patterns": [
+
+			]
+		},
+
+		"char-config": {
+			"name": "source.liberty.library.char_config",
+			"begin": "^\\s*(char_config)\\s*\\(\\)\\s*{",
+			"end": "\\s*}",
+			"beginCaptures": {
+				"1": { "name": "entity.name.function.open.liberty" },
+				"2": { "name": "entity.name.tag"                   }
+			},
+			"endCaptures": {
+				"0": { "name": "entity.name.function.open.liberty" }
+			},
+			"patterns": [
+				{ "include": "#common"         }
+			]
+		},
+
+		"units": {
+			"patterns": [
+				{ "name":"variable.parameter.liberty", "match": "\\b(1km|1m)\\b"                                       },
+				{ "name":"variable.parameter.liberty", "match": "\\b(1uA|10uA|100uA|1mA|10mA|100mA|1A)\\b"             },
+				{ "name":"variable.parameter.liberty", "match": "\\b(1pW|10pW|100pW|1nW|10nW|100nW|1mW|10mW|100mW)\\b" },
+				{ "name":"variable.parameter.liberty", "match": "\\b(1ps|10ps|100ps|1ns)\\b"                           },
+				{ "name":"variable.parameter.liberty", "match": "\\b(1mV|10mV|100mV|1V)\\b"                            },
+				{ "name":"variable.parameter.liberty", "match": "\\b(um|mm)\\b"                                        },
+				{ "name":"variable.parameter.liberty", "match": "\\b(table_lookup)\\b"                                 }
+			]
+		},
+
+		"common": {
+			"patterns": [
+				{ "include": "#string"                                          },
+				{ "include": "#units"                                           },
+				{ "name": "entity.name.type",     "match": "\\b(true|false)\\b" },
+				{ "name": "comment.line.liberty", "match": "//.*$"              },
+				{
+					"name": "comment.block.liberty",
+					"begin": "\\s*+(\\/\\*)",
+					"end": "\\*\\/",
+					"beginCaptures": {
+						"1": { "name": "punctuation.definition.comment.begin.liberty" }
+					},
+					"endCaptures": {
+						"0": { "name": "punctuation.definition.comment.end.liberty" }
+					}
+				},
+				{ "name": "constant.numeric", "match": "-?[0-9]+(\\.[0-9]+)?" }
+			]
+		},
+		"string": {
+			"name": "string.quoted.double.liberty",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{ "name": "constant.character.escape.liberty", "match": "\\\\." }
+			]
+		}
+	},
+	"scopeName": "source.liberty"
+}
